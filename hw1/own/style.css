@@ -12,10 +12,17 @@ html, body {
     background: rgb(13, 176, 252);
 }
 
+/* @keyframes loading {
+    0% {background-position: 0% 0%;}
+    100% {background-position: 100% 0%;}
+} */
+
 .bar:hover {
     transform: scaleY(1.5);
     border-radius: 5px;
     background: repeating-linear-gradient(45deg,  rgb(13, 176, 252), white,  rgb(13, 176, 252) 10%);
+    background-repeat: repeat-x;
+    /* animation: loading 3s linear infinite; */
 }
 
 .cover {
@@ -47,16 +54,26 @@ button {
 }
 
 button:hover {
-    transform: scale(1.1);
     filter: drop-shadow(0px 0px 15px white);
 }
 
 button:active {
-    transform: scale(1.05);
+    transform: scale(0.9);
     filter: drop-shadow(0px 0px 10px white);
 }
 
 .secondary_button img {
     width: 60%;
     height: auto;
+}
+
+@keyframes spin { 
+    100% { 
+        /* -webkit-transform: rotate(360deg);  */
+        transform: rotate(-360deg); 
+    } 
+}
+
+.cycle:hover {
+    animation: spin 3s linear infinite;
 }
