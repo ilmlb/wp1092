@@ -20,7 +20,7 @@ html, body {
 .bar:hover {
     transform: scaleY(1.5);
     border-radius: 5px;
-    background: repeating-linear-gradient(45deg,  rgb(13, 176, 252), white,  rgb(13, 176, 252) 10%);
+    background: repeating-linear-gradient(45deg,  rgb(13, 176, 252), white, rgb(13, 176, 252) 20%);
     background-repeat: repeat-x;
     /* animation: loading 3s linear infinite; */
 }
@@ -76,4 +76,14 @@ button:active {
 
 .cycle:hover {
     animation: spin 3s linear infinite;
+}
+
+@keyframes heartbeat
+{
+  0% {transform: scale(1.1);}
+  100% {transform: scale(1);}
+}
+
+.favorite:hover {
+    animation: heartbeat 0.5s infinite;
 }
