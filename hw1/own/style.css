@@ -70,20 +70,20 @@ button {
     justify-content: center;
 }
 
-input[type="checkbox"] {
+#play {
     display:none;
     appearance: none;
     border: none;
     outline: none;
 }
 
-input[type="checkbox"] {
+#play {
     content: url('./images/play.png');
     display: inline-block;
     width: 130px;
     height: 130px;
 }
-input[type="checkbox"]:checked {
+#play:checked {
     content: url('./images/pause.png');
 }
 
@@ -92,11 +92,11 @@ input[type="checkbox"]:checked {
     height: auto;
 }
 
-button:hover, input[type="checkbox"]:hover {
+button:hover, #play:hover {
     filter: drop-shadow(0px 0px 15px white);
 }
 
-button:active, input[type="checkbox"]:active {
+button:active, #play:active {
     transform: scale(0.9);
     filter: drop-shadow(0px 0px 10px white);
 }
