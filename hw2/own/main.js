@@ -11,7 +11,7 @@ display.src = img_source[current];
 a.href = img_source[current];
 a.innerHTML = img_source[current];
 
-var checkBtn = function(a) {
+function checkBtn(a) {
     if (a === 0) {
         document.getElementById("previous").style.opacity = 0.5;
     } else if (a < img_source.length - 1) {
@@ -24,17 +24,23 @@ var checkBtn = function(a) {
     }
 }
 
-var switchImg = function(a) {
+function switchImg(a) {
     let tmp = current + a;
     if (tmp < img_source.length && tmp >= 0) {
         current = tmp;
-        display.src = img_source[current];
+        display.src = loading;
+        let img = new Image()
+        img.onload = function() {
+            display.src = img.src;
+        };
+        img.src = img_source[current];
         a.href = img_source[current];
         a.innerHTML = img_source[current];
     }
     checkBtn(current);
 }
 
+switchImg(0);
 checkBtn(current);
 let btn = document.getElementsByClassName("image-viewer__button");
 for (let i = 0 ; i < btn.length; ++i) {
