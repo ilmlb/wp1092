@@ -6,10 +6,7 @@ const img_source = [
 let current = 0;
 const loading = "./images/loading.gif";
 let display = document.getElementById("display");
-let a = document.getElementsByTagName("a")
-display.src = img_source[current];
-a.href = img_source[current];
-a.innerHTML = img_source[current];
+let source = document.getElementsByTagName("a")[0];
 
 function checkBtn(a) {
     if (a === 0) {
@@ -34,8 +31,8 @@ function switchImg(a) {
             display.src = img.src;
         };
         img.src = img_source[current];
-        a.href = img_source[current];
-        a.innerHTML = img_source[current];
+        source.href = img_source[current];
+        source.innerHTML = img_source[current];
     }
     checkBtn(current);
 }
