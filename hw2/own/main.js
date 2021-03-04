@@ -10,14 +10,14 @@ let source = document.getElementsByTagName("a")[0];
 
 function checkBtn(a) {
     if (a === 0) {
-        document.getElementById("previous").style.opacity = 0.5;
+        document.getElementById("previous").classList.add("disabled");
     } else if (a < img_source.length - 1) {
         let tmp = document.getElementsByClassName("image-viewer__button");
         for (let i = 0 ; i < tmp.length; ++i) {
-            tmp[i].firstElementChild.style.opacity = 1;
+            tmp[i].firstElementChild.classList.remove("disabled");
         }
     } else {
-        document.getElementById("next").style.opacity = 0.5;
+        document.getElementById("next").classList.add("disabled");
     }
 }
 
