@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="player">
+            <div class="navbar">
+                <ul class="list list_navbar">
+                    <li>
+                        <a class="list_link" onClick="return false;"><i class="fa fa-navicon"></i></a>
+                    </li>
+                    <li>
+                        <a class="list_link" onClick="return false;"><i class="fa fa-search"></i></a>
+                    </li>
+                </ul>
+                <img src="image.png" alt="Album cover"/>
+                <div class="range"></div>
+            </div>
+            <div class="info">
+                <div class="album">+</div>
+
+                <div class="song">The A Team</div>
+
+                <div class="singer">Ed Sheeran</div>
+            </div>
+            <div class="buttons">
+                <ul class="list list_buttons">
+                    <li>
+                        <a onClick="return false;" class="list_link"><i class="fa fa-step-backward"></i></a>
+                    </li>
+                    <li>
+<button class = "playPauseButton"></button>
+                    </li>
+                    <li>    
+                        <a onClick="return false;" class="list_link"><i class="fa fa-step-forward"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">
+            <ul class="list list_footer">
+                <li>
+                    <a href="#" class="list_link"><i class="fa fa-heart-o"></i></a>
+                </li>
+                <li>
+                    <a href="#" class="list_link"><i class="fa fa-random"></i></a>
+                </li>
+                <li>
+                    <a href="#" class="list_link"><i class="fa fa-undo"></i></a>
+                </li>
+                <li>
+                    <a href="#" class="list_link"><i class="fa fa-ellipsis-h"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

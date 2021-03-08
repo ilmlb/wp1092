@@ -1,0 +1,198 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+a{
+	text-decoration: none;
+}
+
+body{
+    font-family: 'Roboto', Arial, Verdana, sans-serif;
+    background:#FFE6D9;
+}
+.container{
+    margin : 0 auto ;
+    margin-top : 30px;
+    max-width: 300px;
+    background: #fff;
+    border-radius: 0.25rem;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.19), 0 6px 6px -10px rgba(0, 0, 0, 0.23);
+}
+.navbar{
+    position: relative;
+}
+.navbar img{
+    max-width: 100%;
+    border-radius: 0.25rem;
+}
+.list{
+    display: flex;
+}
+.buttons, .info, .footer{
+    padding-right: 20px;
+    padding-left: 20px;
+    margin-bottom: 30px;
+    margin-top: 5px;
+}
+.list_link :hover{
+    color : #888;
+}
+.info{
+    margin-bottom: 20px;
+}
+.list_navbar, .list_footer {
+    justify-content: space-between;
+}
+.list_navbar .list_link{
+    margin : 10px;
+    color : white ;
+}
+.list_navbar, .list_link, .list_footer .list_link {
+    color: #888;
+}
+.list_navbar{
+    position: absolute;
+    margin-top : 10px;
+    width: 100%;
+}
+.info{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+.album, .song{
+    margin-bottom: 10px;
+}
+
+.singer, .album {
+    font-size: 16px;
+    font-weight: 300;
+    color: #666;
+}
+.song {
+    font-size: 24px;
+    font-weight: 400;
+    color: #d30320;
+}
+.list_buttons{
+    align-items: center;
+    justify-content: center;
+}
+.list_buttons a{
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(33, 33, 33, 0.1), 0 3px 12px rgba(33, 33, 33, 0.15);
+}
+.list_buttons li:first-of-type a, .list_buttons li:last-of-type a{
+    font-size: 16px;
+    color: rgba(171, 2, 26, 0.95);
+    opacity: .5;
+}
+.list_buttons li a:hover{
+    color: rgba(171, 2, 26, 0.95);
+    opacity: 0.8;
+    box-shadow: 0 6px 9px rgba(33, 33, 33, 0.1), 0 6px 16px rgba(33, 33, 33, 0.15);
+}
+.playPauseButton{
+    margin-left: 10px;
+    margin-right: 10px;
+    position: relative;
+    background: #fff; 
+    border: none;
+    outline: none;
+    height: 4em;
+    width: 4em;
+    cursor:pointer;
+	border-radius: 4em;
+    opacity: .5;
+    box-shadow: 0 3px 6px rgba(33, 33, 33, 0.1), 0 3px 12px rgba(33, 33, 33, 0.15);
+}
+.playPauseButton:hover{
+    opacity: 0.8;
+    box-shadow: 0 6px 9px rgba(33, 33, 33, 0.1), 0 6px 16px rgba(33, 33, 33, 0.15);
+}
+.playPauseButton:before{
+  content: "";
+  position: absolute;
+  top: 1.5em;
+  left: 1.67em;
+  height: 0;
+  border-style: solid;
+  border-width: 0.5em 0 0.5em 1em;
+  border-color: transparent transparent transparent rgba(171, 2, 26, 0.95);; 
+  transition: .218s ease;
+}
+.playPauseButton:hover:before{
+  height: 1em;
+  border-width: 0 0 0 1em;
+}
+.playPauseButton:after{
+  content: "";
+  position: absolute;
+  background: inherit;
+  width: 0;
+  height: 1em;
+  top: 1.5em;
+  left: 2em;
+  transition: .218s ease;
+}
+.playPauseButton:hover:after{
+  width: .3em;
+}
+.footer{
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+.list_footer a{
+    opacity: .5;
+}
+.list_footer a :hover{
+    color : rgba(171, 2, 26, 0.95);
+}
+
