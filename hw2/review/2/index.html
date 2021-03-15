@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Image Viewer</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            media="screen"
+            href="styles.css"
+        />
+    </head>
+    <body>
+        <div class="image-viewer__container">
+            <div class="image-viewer__title">Image Viewer</div>
+            <div>
+                <input type="text" placeholder="Enter a number(1~6)" id="input"></input>
+                <!-- <button  onclick="directimg();">submit</button> -->
+            </div>
+            <div class="image-viewer__main">
+                <div class="image-viewer__button">
+                    <img src="./images/back.png" id="previous" onmouseover="preimg(this);"/>
+                </div>
+                <div class="image-viewer__display">
+                    <img src = "https://image-cdn.hypb.st/https%3A%2F%2Fhk.hypebeast.com%2Ffiles%2F2020%2F12%2Fkobe-bryant-considered-leaving-nike-mamba-sneaker-brand-info-1.jpg?q=90&w=1400&cbr=1&fit=max" id="display">
+                    <p id="page">page : 1 / 6</p>
+                    <div class="image-viewer__display-source-wrapper">
+                        <span>source:
+                            <a href="https://image-cdn.hypb.st/https%3A%2F%2Fhk.hypebeast.com%2Ffiles%2F2020%2F12%2Fkobe-bryant-considered-leaving-nike-mamba-sneaker-brand-info-1.jpg?q=90&w=1400&cbr=1&fit=max" id="link">https://image-cdn.hypb.st/https%3A%2F%2Fhk.hypebeast.com%2Ffiles%2F2020%2F12%2Fkobe-bryant-considered-leaving-nike-mamba-sneaker-brand-info-1.jpg?q=90&w=1400&cbr=1&fit=max
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="image-viewer__button">
+                    <img src="./images/next.png" id ="next" onmouseover="nextimg(this)"; />
+                </div>
+            </div>
+        </div>
+        <script src="main.js"></script>
+    </body>
+</html>
