@@ -5,7 +5,8 @@ var cancelButton = document.getElementById("cancel-button");
 var count = 1;
 commentButton.disabled = true;
 comment.addEventListener ('keyup', function(e) {
-    if(e.target.value.trim() === '') {
+    // console.log(e.target.value.trim().length);
+    if(e.target.value.trim() === "") {
         commentButton.style.backgroundColor = "#cccccc";
         commentButton.disabled = true;
     } else {
@@ -22,8 +23,9 @@ comment.addEventListener ("focus", function() {
 commentButton.addEventListener ("click", function() {
     console.log(commentButton.disabled);
     addComment(comment.value.trim());
-    comment.value = "";
+    comment.value = '';
     commentButton.style.backgroundColor = "#cccccc";
+    commentButton.disabled = true;
 });
 
 cancelButton.addEventListener ("click", function() {
