@@ -11,6 +11,7 @@ class TodoList extends Component {
     static getDerivedStateFromProps(props, state) {
         // const {add} = props;
         if (props.add.length > 0) {
+            // console.log(state.todo)
             return {todo: [...state.todo, <Todo todo={props.add}/>]};
         }
     }
