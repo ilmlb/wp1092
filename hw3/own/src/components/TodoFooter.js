@@ -27,7 +27,7 @@ class TodoFooter extends Component {
                     <button onClick={() => {this.props.mode("active")}}>Active</button>
                     <button onClick={() => {this.props.mode("completed")}}>Completed</button>
                 </ul>
-                <div class="todo-app__clean">
+                <div class="todo-app__clean" style={{visibility: this.props.left.length - this.countLeft()? "visible":"hidden"}}>
                     <button onClick={this.props.clear}>Clear completed</button>
                 </div>
             </footer>

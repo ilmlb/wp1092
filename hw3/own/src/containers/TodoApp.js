@@ -31,10 +31,10 @@ class TodoApp extends Component {
     }
 
     checkDone = (i) => {
+        // console.log("call check", i);
         const d = [...this.state.done];
-        d.splice(i, 1, !this.state.done[i]);
+        d.splice(i, 1, !d[i]);
         this.setState({done: d});
-        // console.log("call check");
     }
 
     deleteTodo = (i) => {
@@ -48,7 +48,7 @@ class TodoApp extends Component {
     }
 
     clearComplete = () => {
-        console.log("clear");
+        // console.log("clear");
         const t = [...this.state.todo];
         const d = [...this.state.done];
         for (let i = 0; i < d.length; ++i) {
@@ -63,7 +63,7 @@ class TodoApp extends Component {
     }
 
     render() {
-        console.log("render", this.state.mode, this.state.todo, this.state.done);
+        // console.log("render", this.state.mode, this.state.todo, this.state.done);
         return (
             <>
                 <Header text="todos" />

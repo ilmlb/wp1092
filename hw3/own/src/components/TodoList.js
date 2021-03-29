@@ -3,7 +3,6 @@ import Todo from "./Todo";
 
 class TodoList extends Component {
     constructor(props) {
-        // console.log("called");
         super(props);
         this.state = {
             // mode: props.display,
