@@ -3,20 +3,32 @@ import React, { Component } from "react";
 class TodoFooter extends Component {
     constructor(props) {
         super(props);
-        this.state = {left: 0}
+        // this.state = {mode: this.props.left}
+    }
+
+    countLeft = () => {
+        let left = 0;
+        for (let i = 0; i < this.props.left.length; ++i) {
+            if (!this.props.left[i]) {
+                ++left;
+            }
+        }
+        // console.log(left);
+        return left;
     }
 
     render() {
+        // console.log(this.props.left);
         return (
-            <footer class="todo-app__footer" id="todo-footer" style={{visibility: this.state.left? "visible":"hidden"}}>
-                <div class="todo-app__total">{this.state.left} left</div>
+            <footer class="todo-app__footer" id="todo-footer" style={{visibility: this.props.left.length? "visible":"hidden"}}>
+                <div class="todo-app__total">{this.countLeft()} left</div>
                 <ul class="todo-app__view-buttons">
-                    <button>All</button>
-                    <button>Active</button>
-                    <button>Completed</button>
+                    <button onClick={() => {this.props.mode("all")}}>All</button>
+                    <button onClick={() => {this.props.mode("active")}}>Active</button>
+                    <button onClick={() => {this.props.mode("completed")}}>Completed</button>
                 </ul>
                 <div class="todo-app__clean">
-                    <button>Clear completed</button>
+                    <button onClick={this.props.clear}>Clear completed</button>
                 </div>
             </footer>
         )        
