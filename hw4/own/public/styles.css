@@ -1,3 +1,37 @@
 * {
     box-sizing: border-box;
 }
+
+.column, .row {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgb(233, 233, 233);
+    box-shadow: 2px;
+}
+
+.row {
+    width: 100%;
+    height: 25px;
+}
+
+.column {
+    width: 25px;
+    height: 100%;
+}
+
+.change_column {
+    position: absolute;
+    left: 25px;
+}
+
+.change_row {
+    position: absolute;
+    top: 25px;
+}
+
+.change_column > *, .change_row > * {
+    width: 25px;
+    height: 25px;
+    background-color: white;
+}
