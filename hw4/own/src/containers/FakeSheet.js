@@ -1,30 +1,37 @@
 import React, { Component } from "react";
-// import Header from "../components/Header";
+import Header from "../components/Header";
+import Index from "../components/Index";
+import Sheet from "./Sheet";
 
 class FakeSheet extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            // header: 26,
+            // index: 100,
+            cursor: [0, 0],
+        };
     }
 
     render() {
         return (
             <>
-                {/* <Header /> */}
-                <div class="row">
-                    <div class="change_column">
+                <Sheet/>
+                <Header/>
+                <Index/>
+                <div id="no_use"></div>
+                <div class="change_column">
+                    <div class="column_button">
                         <button id="add_column">+</button>
                         <button id="erase_column">-</button>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="change_row">
+                <div class="change_row">
+                    <div class="row_button">
                         <button id="add_row">+</button>
                         <button id="erase_row">-</button>
                     </div>
                 </div>
-                
-                {/* <Sheet> */}
             </>
         );
     }
