@@ -7,17 +7,22 @@ class FakeSheet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cursor: [0, 0],
+            cursor: [-1, -1],
             action: [0, 0],
         };
+    }
+
+    focusOnCell = (ro, co) => {
+        this.setState({cursor: [ro, co]});
+        console.log(this.state.cursor);
     }
 
     render() {
         return (
             <>
-                <Sheet/>
-                <Header action={this.state.action[1]}/>
-                <Index action={this.state.action[0]}/>
+                <Sheet pos={this.focusOnCell}/>
+                <Header action={this.state.action[1]} dark={this.state.cursor[0]}/>
+                <Index action={this.state.action[0]} dark={this.state.cursor[1]}/>
                 <div id="no_use"></div>
                 <div class="change_column">
                     <div class="column_button">

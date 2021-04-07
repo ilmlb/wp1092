@@ -84,7 +84,7 @@ input:focus {
     height: 100%;
     border: 2px solid lightgrey;
     background-color: rgb(233, 233, 233);
-    text-align: right;
+    text-align: center;
 }
 
 .index_box {
@@ -98,7 +98,7 @@ input:focus {
     border: 2px solid lightgrey;
     height: 25px;
     background-color: rgb(233, 233, 233);
-    text-align: right;
+    text-align: center;
 }
 
 .header {
@@ -111,3 +111,7 @@ input:focus {
     width: 75px;
     height: 25px;
 } */
+
+.dark {
+    background-color: gray;
+}

@@ -1,8 +1,8 @@
 import React, { useState }  from "react";
-export default ({action}) => {
+export default ({action, dark}) => {
     const [index, setIndex] = useState(100);
 
-    return <div class="index_box">{intToIndex(index)}</div>
+    return <div class="index_box">{intToIndex(index, dark)}</div>
 }
 
 function intToIndex(n) {

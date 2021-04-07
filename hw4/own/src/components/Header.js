@@ -1,5 +1,5 @@
 import React, { useState }  from "react";
-export default ({action}) => {
+export default ({action, dark}) => {
     const [header, setHeader] = useState(26);
 
     return <div class="header_box">{intToHeader(header)}</div>
