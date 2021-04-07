@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-export default ({text}) => {
+export default ({cell_idx}) => {
     const [content, setContent] = useState("");
-    // const [position, setPosition] = useState([0, 0]);
+    const [index, setIndex] = useState(cell_idx);
 
-    return <input type="text" value={content} onChange={() => setContent("")}></input>;
+    return <input type="text" value={content} onClick={(e) => e.target.select()} onChange={(e) => setContent(e.target.value.trim())}></input>;
 }
