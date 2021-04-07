@@ -40,7 +40,7 @@
 input {
     height: 25px;
     width: 75px;
-    border: solid rgb(233, 233, 233) 2px;
+    border: solid lightgrey 2px;
 }
 
 input:focus {
@@ -66,3 +66,45 @@ input:focus {
     width: 75px;
     height: 25px;
 }
+
+.header_box {
+    white-space: nowrap;
+    position: sticky;
+    top: 25px;
+    height: 25px;
+    margin-left: 92px;
+}
+
+.header_box > * {
+    display: inline-block;
+    width: 75px;
+    height: 100%;
+    border: 2px solid lightgrey;
+    background-color: rgb(233, 233, 233);
+    text-align: right;
+}
+
+.index_box {
+    width: 75px;
+    position: sticky;
+    left: 25px;
+    margin-top: 15px;
+}
+
+.index_box > * {
+    border: 2px solid lightgrey;
+    height: 25px;
+    background-color: rgb(233, 233, 233);
+    text-align: right;
+}
+
+.header {
+    display: inline;
+    width: 75px;
+    height: 25px;
+}
+
+/* .index {
+    width: 75px;
+    height: 25px;
+} */

@@ -7,9 +7,8 @@ class FakeSheet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // header: 26,
-            // index: 100,
             cursor: [0, 0],
+            action: [0, 0],
         };
     }
 
@@ -17,8 +16,8 @@ class FakeSheet extends Component {
         return (
             <>
                 <Sheet/>
-                <Header/>
-                <Index/>
+                <Header action={this.state.action[1]}/>
+                <Index action={this.state.action[0]}/>
                 <div id="no_use"></div>
                 <div class="change_column">
                     <div class="column_button">
