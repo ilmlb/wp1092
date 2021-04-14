@@ -5,13 +5,16 @@ class Sheet extends Component {
         super(props);
         this.state = {
             // content: this.initialSheet(),
+            // inputRef: new Array(100).fill().map(() => Array(26)),
         };
-        this.inputRef = new Array(100).fill().map(() => Array(26).fill(""));
+        // this.inputRef = new Array(100).fill().map(() => Array(26));
     }
+
+    // inputRef = new Array(this.props.content.length).fill().map(() => Array(this.props.content[0].length));
 
     componentDidUpdate(prevProps) {
         if (this.props !== prevProps) {
-          if (this.props.now[0] !== -1 && this.props.now[1] !== -1 && this.inputRef[this.props.now[0]][this.props.now[1]] !== undefined) {
+            if (this.props.now[0] !== -1 && this.props.now[1] !== -1 && this.inputRef[this.props.now[0]][this.props.now[1]] !== undefined) {
                 this.inputRef[this.props.now[0]][this.props.now[1]].focus();
             }
         }
@@ -24,7 +27,10 @@ class Sheet extends Component {
     }
 
     render() {
+        this.inputRef = new Array(this.props.content.length).fill().map(() => Array(this.props.content[0].length));
+        console.log("ref shape:", this.inputRef.length, this.inputRef[0].length)
         let sheet = new Array(this.props.content.length);
+        console.log("render:\n")
         for (let i = 0; i < this.props.content.length; ++i) {
             let row = new Array(this.props.content[0].length);
             for (let j = 0; j < this.props.content[0].length; ++j) {
@@ -44,6 +50,7 @@ class Sheet extends Component {
                                 onChange={(e) => this.setContent(e.target.value.trim(), i, j)}
                                 onBlur={() => this.props.pos(-1,- 1)}
                                 onFocus={() => this.props.pos(i, j)}/>;
+                // console.log("ref:", i, j, this.inputRef[i][j])
             }
             sheet[i] = <div class="row">{row}</div>;
         }

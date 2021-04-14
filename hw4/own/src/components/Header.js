@@ -7,7 +7,7 @@ function intToHeader(n, d) {
     let h = [];
     // console.log(d)
     for (let i = 0; i < n; ++i) {
-        if (i != d) {
+        if (i !== d) {
             h.push(<div>{intToChar(i)}</div>);
         } else {
             h.push(<div class="dark">{intToChar(i)}</div>);
