@@ -6,6 +6,15 @@ class Sheet extends Component {
         this.state = {
             // content: this.initialSheet(),
         };
+        this.inputRef = new Array(100).fill().map(() => Array(26).fill(""));
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props !== prevProps) {
+          if (this.props.now[0] !== -1 && this.props.now[1] !== -1 && this.inputRef[this.props.now[0]][this.props.now[1]] !== undefined) {
+                this.inputRef[this.props.now[0]][this.props.now[1]].focus();
+            }
+        }
     }
 
     setContent = (t, i, j) => {
@@ -19,8 +28,9 @@ class Sheet extends Component {
         for (let i = 0; i < this.props.content.length; ++i) {
             let row = new Array(this.props.content[0].length);
             for (let j = 0; j < this.props.content[0].length; ++j) {
+                // row[j] = <Cell idx={[i, j]} text={this.props.content} pos={this.props.now} changeContent={this.setContent} focusFunc={this.props.pos}/>
                 row[j] = <input type="text"
-                                ref={input => this.ref = input}
+                                ref={input => this.inputRef[i][j] = input}
                                 value={this.props.content[i][j]}
                                 onClick={(e) => {e.target.select()}}
                                 onKeyDown={(e) => {

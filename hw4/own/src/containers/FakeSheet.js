@@ -10,13 +10,21 @@ class FakeSheet extends Component {
             content: new Array(100).fill().map(() => Array(26).fill("")),
             // shape: [100, 26],
             cursor: [-1, -1],
+            // prev: [-1, -1],
+            // inputRefToFocus: null,
         };
     }
 
     focusOnCell = (ro, co) => {
+        // let c = this.state.cursor;
+        // this.setState({prev: c});
         this.setState({cursor: [ro, co]});
-        console.log(this.state.cursor);
+        // console.log(this.state.cursor);
     }
+
+    // setInputRefToFocus = (ref) => {
+    //     this.setState({inputRefToFocus: ref});
+    // }
 
     modifyColumn = (m) => {
         // let temp = this.state.shape[1] + m;
@@ -24,7 +32,7 @@ class FakeSheet extends Component {
         //     this.setState({shape: [this.state.shape[0], temp]});
         // }
         let c = this.state.content;
-        if (this.state.cursor != [-1, -1]) {
+        if (this.state.cursor !== [-1, -1]) {
             if (m === 1) {
                 for (let i = 0; i < c.length; ++i) {
                     c[i].splice(this.state.cursor[1], 0, "");
@@ -54,7 +62,7 @@ class FakeSheet extends Component {
         //     this.setState({shape: [temp, this.state.shape[1]]});
         // }
         let c = this.state.content;
-        if (this.state.cursor != [-1, -1]) {
+        if (this.state.cursor !== [-1, -1]) {
             if (m === 1) {
                 c.splice(this.state.cursor[0], 0, Array(c[0].length).fill(""));
             } else {
@@ -71,7 +79,7 @@ class FakeSheet extends Component {
     }
 
     render() {
-        console.log(this.state.cursor);
+        console.log("cursor:", this.state.cursor);
         return (
             <>
                 <Sheet content={this.state.content} pos={this.focusOnCell} now={this.state.cursor}/>
