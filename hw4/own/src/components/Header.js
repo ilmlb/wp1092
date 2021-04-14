@@ -1,14 +1,17 @@
-import React, { useState }  from "react";
-export default ({action}) => {
-    const [header, setHeader] = useState(26);
-
-    return <div class="header_box">{intToHeader(header)}</div>
+import React  from "react";
+export default ({len, dark}) => {
+    return <div class="header_box">{intToHeader(len, dark)}</div>;
 }
 
-function intToHeader(n) {
+function intToHeader(n, d) {
     let h = [];
+    // console.log(d)
     for (let i = 0; i < n; ++i) {
-        h.push(<div>{intToChar(i)}</div>);
+        if (i != d) {
+            h.push(<div>{intToChar(i)}</div>);
+        } else {
+            h.push(<div class="dark">{intToChar(i)}</div>);
+        }
     }
     return h;
 }
