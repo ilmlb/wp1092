@@ -20,6 +20,10 @@ class Sheet extends Component {
         }
     }
 
+    // componentWillUnmount(){
+    //     this.inputRef = new Array(this.props.content.length).fill().map(() => new Array(this.props.content[0].length));
+    // }
+
     setContent = (t, i, j) => {
         let c = this.props.content;
         c[i][j] = t;
@@ -27,7 +31,7 @@ class Sheet extends Component {
     }
 
     render() {
-        this.inputRef = new Array(this.props.content.length).fill().map(() => Array(this.props.content[0].length));
+        this.inputRef = new Array(this.props.content.length).fill().map(() => new Array(this.props.content[0].length));
         console.log("ref shape:", this.inputRef.length, this.inputRef[0].length)
         let sheet = new Array(this.props.content.length);
         console.log("render:\n")
@@ -36,7 +40,7 @@ class Sheet extends Component {
             for (let j = 0; j < this.props.content[0].length; ++j) {
                 // row[j] = <Cell idx={[i, j]} text={this.props.content} pos={this.props.now} changeContent={this.setContent} focusFunc={this.props.pos}/>
                 row[j] = <input type="text"
-                                ref={input => this.inputRef[i][j] = input}
+                                ref={input => {if(this.inputRef[i]) {this.inputRef[i][j] = input}}}
                                 value={this.props.content[i][j]}
                                 onClick={(e) => {e.target.select()}}
                                 onKeyDown={(e) => {
@@ -54,6 +58,7 @@ class Sheet extends Component {
             }
             sheet[i] = <div class="row">{row}</div>;
         }
+        // console.log()
         return <div class="sheet">{sheet}</div>;
     }
 }

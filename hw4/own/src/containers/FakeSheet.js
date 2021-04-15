@@ -7,11 +7,12 @@ class FakeSheet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            content: new Array(100).fill().map(() => Array(26).fill("")),
+            content: new Array(100).fill().map(() => new Array(26).fill("")),
             // shape: [100, 26],
             cursor: [-1, -1],
             prev: [-1, -1],
             // inputRefToFocus: null,
+            // inputRef = new Array(100).fill().map(() => new Array(26)),
         };
     }
 
@@ -21,6 +22,18 @@ class FakeSheet extends Component {
         this.setState({cursor: [ro, co]});
         // console.log(this.state.cursor);
     }
+
+    // setRef = (ref, i, j) => {
+    //     let r = this.state.inputRef;
+    // }
+
+    // componentDidUpdate(prevProps) {
+    //     if (this.props !== prevProps) {
+    //         if (this.props.now[0] !== -1 && this.props.now[1] !== -1 && this.inputRef[this.props.now[0]][this.props.now[1]] !== undefined) {
+    //             this.inputRef[this.props.now[0]][this.props.now[1]].focus();
+    //         }
+    //     }
+    // }
 
     // setInputRefToFocus = (ref) => {
     //     this.setState({inputRefToFocus: ref});
@@ -36,22 +49,24 @@ class FakeSheet extends Component {
             if (m === 1) {
                 for (let i = 0; i < c.length; ++i) {
                     c[i].splice(this.state.prev[1], 0, "");
-                    // this.focusOnCell(this.state.prev[0], this.state.prev[1] + 1);
+                    this.focusOnCell(this.state.prev[0], this.state.prev[1] + 1);
                 }
             } else {
                 for (let i = 0; i < c.length; ++i) {
                     c[i].splice(this.state.prev[1], 1);
-                    // this.focusOnCell(-1, -1);
+                    this.focusOnCell(-1, -1);
                 }
             }
         } else {
             if (m === 1) {
                 for (let i = 0; i < c.length; ++i) {
                     c[i].push("");
+                    this.focusOnCell(-1, -1);
                 }
             } else {
                 for (let i = 0; i < c.length; ++i) {
                     c[i].pop();
+                    this.focusOnCell(-1, -1);
                 }
             }
         }
@@ -66,15 +81,19 @@ class FakeSheet extends Component {
         let c = this.state.content;
         if (this.state.prev !== [-1, -1]) {
             if (m === 1) {
-                c.splice(this.state.prev[0], 0, Array(c[0].length).fill(""));
+                c.splice(this.state.prev[0], 0, new Array(c[0].length).fill(""));
+                this.focusOnCell(this.state.prev[0] + 1, this.state.prev[1]);
             } else {
                 c.splice(this.state.prev[0], 1);
+                this.focusOnCell(-1, -1);
             }
         } else {
             if (m === 1) {
-                c.push(Array(c[0].length).fill(""));
+                c.push(new Array(c[0].length).fill(""));
+                this.focusOnCell(-1, -1);
             } else {
                 c.pop();
+                this.focusOnCell(-1, -1);
             }
         }
         this.setState({content: c});
