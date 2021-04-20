@@ -107,6 +107,18 @@ class MergeSchool extends Component {
                 const nextBoard = this.moveRight(this.state.board);
                 this.checkAndUpdateAfterMove(nextBoard);
             } 
+            else if (direction === "left") {
+                const nextBoard = this.moveLeft(this.state.board);
+                this.checkAndUpdateAfterMove(nextBoard);
+            } 
+            else if (direction === "up") {
+                const nextBoard = this.moveUp(this.state.board);
+                this.checkAndUpdateAfterMove(nextBoard);
+            } 
+            else if (direction === "down") {
+                const nextBoard = this.moveDown(this.state.board);
+                this.checkAndUpdateAfterMove(nextBoard);
+            } 
             // #########################
             // # 8 Implement yourself
             // #########################
@@ -282,6 +294,15 @@ class MergeSchool extends Component {
         event.preventDefault();
         if (event.keyCode === 39) {
             this.moveGrid("right");
+        }
+        else if (event.keyCode === 37) {
+            this.moveGrid("left");
+        }
+        else if (event.keyCode === 38) {
+            this.moveGrid("up");
+        }
+        else if (event.keyCode === 40) {
+            this.moveGrid("down");
         }
         // #########################
         // # 8 Implement yourself
