@@ -29,9 +29,17 @@ router.get('/guess', (req, res) => {
   else {
   // TODO: check if number and guessed are the same,
   // and response with some hint "Equal", "Bigger", "Smaller"
+    if (number === guessed) {
+      return "Equal";
+    } else if (number > guessed) {
+      return "Bigger";
+    } else {
+      return "Smaller";
+    }
   }
 })
 
 // TODO: add router.post('/restart',...)
+// router.post('/restart', () => {})
 
 export default router

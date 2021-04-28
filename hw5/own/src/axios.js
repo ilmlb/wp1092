@@ -16,6 +16,7 @@ const guess = async (number) => {
   const {
     data: { msg }
   } = await instance.get('/guess', { params: { number } })
+  // .catch((error) => {console.log(error)});
 
   return msg
 }
