@@ -30,16 +30,23 @@ router.get('/guess', (req, res) => {
   // TODO: check if number and guessed are the same,
   // and response with some hint "Equal", "Bigger", "Smaller"
     if (number === guessed) {
-      return "Equal";
+      // return "Equal";
+      res.status(200).send({ msg: 'Equal' });
     } else if (number > guessed) {
-      return "Bigger";
+      // return "Bigger";
+      res.status(200).send({ msg: 'Bigger' });
     } else {
-      return "Smaller";
+      // return "Smaller";
+      res.status(200).send({ msg: 'Smaller' });
     }
   }
 })
 
 // TODO: add router.post('/restart',...)
-// router.post('/restart', () => {})
+router.post('/restart', (_, res) => {
+  getNumber(true)
+
+  res.json({ msg: 'The game has restarted.' })
+})
 
 export default router
