@@ -20,13 +20,6 @@ router.post('/start', (_, res) => {
 
   res.json({ msg: 'The game has started.' })
 
-  let current = new Date();
-  let yyyy = current.getFullYear();
-  let momo = String(current.getMonth() + 1).padStart(2, '0');
-  let dd = String(current.getDate()).padStart(2, '0');
-  let hh = String(current.getHours()).padStart(2, '0');
-  let mimi = String(current.getMinutes()).padStart(2, '0');
-  let ss = String(current.getSeconds()).padStart(2, '0');
   fs.appendFile(fileName, `start number=${getNumber()} ${parseTime()}\n`, function (err) {
     if (err) throw err;
     console.log('Start');
