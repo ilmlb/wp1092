@@ -8,6 +8,8 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const app = express()
 
+var fileName;
+
 // init middleware
 app.use(cors())
 app.use(express.json())
@@ -35,4 +37,21 @@ if (isProduction) {
 
 app.listen(port, () => {
   console.log(`Server is up on port ${port}.`)
+  var fs = require('fs');
+  var dir = './server/log';
+
+  if (!fs.existsSync(dir)){
+      fs.mkdirSync(dir);
+  }
+
+  let current = new Date();
+  let yyyy = current.getFullYear();
+  let momo = String(current.getMonth() + 1).padStart(2, '0');
+  let dd = String(current.getDate()).padStart(2, '0');
+  let hh = String(current.getHours()).padStart(2, '0');
+  let mimi = String(current.getMinutes()).padStart(2, '0');
+  fileName = `${dir}/${yyyy}-${momo}-${dd}-${hh}-${mimi}.log`;
+  
 })
+
+export {fileName};
