@@ -7,17 +7,21 @@ function App() {
   const [hasWon, setHasWon] = useState(false)
   const [number, setNumber] = useState('')
   const [status, setStatus] = useState('')
+  const [responding, setResponding] = useState(true)
+  const noResponse = "Server is not responding or not connected."
 
   const startMenu = (
     <div>
       <button
         onClick={async () => {
           await startGame()
-          setHasStarted(true)
+          .then(response => {setHasStarted(true); setResponding(true);})
+          .catch(error => {/*console.log(error);*/ setResponding(false);})
         }}
       >
         start game
       </button>
+      <div>{responding? '':noResponse}</div>
     </div>
   )
 
@@ -27,13 +31,17 @@ function App() {
       <button
         onClick={async () => {
           await restart()
-          setHasWon(false)
-          setStatus('')
-          setNumber('')
+          .then((response) => {
+            setHasWon(false)
+            setStatus('')
+            setNumber('')
+          })
+          .catch(error => {/*console.log(error);*/ setResponding(false);})
         }}
       >
         restart
       </button>
+      <div>{responding? '':noResponse}</div>
     </>
   )
 
@@ -71,7 +79,7 @@ function App() {
     </div>
   )
 
-  return <div className="App">{hasStarted ? game : startMenu}</div>
+  return (<div className="App">{hasStarted ? game : startMenu}</div>)
 }
 
 export default App

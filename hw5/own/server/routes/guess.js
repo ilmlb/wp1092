@@ -24,7 +24,8 @@ router.get('/guess', (req, res) => {
 
   // check if NOT a num or not in range [1,100]
   if (!guessed || guessed < 1 || guessed > 100) {
-    res.status(400).send({ msg: 'Not a legal number.' })
+    // res.status(400).send({ msg: 'Not a legal number.' })
+    res.status(200).send({ msg: 'Not a legal number.' });
   }
   else {
   // TODO: check if number and guessed are the same,
