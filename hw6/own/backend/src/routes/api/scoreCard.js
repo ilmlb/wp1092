@@ -15,7 +15,7 @@ router.post('/create-card', async function (req, res) {
     //     res.send({card, message}), where message is the text to print
     // const newScoreCard = new ScoreCard(req.body);
     let msg;
-    ScoreCard.findOneAndUpdate( {name: req.body.name, subject: req.body.subject}, {$set: {score: req.body.score}}, {upsert: true}, function(err, found) {
+    await ScoreCard.findOneAndUpdate( {name: req.body.name, subject: req.body.subject}, {$set: {score: req.body.score}}, {upsert: true}, function(err, found) {
       if (err) {
         msg = "Error occurs when creating ScoreCard!!!";
       }
@@ -50,9 +50,36 @@ router.delete('/delete-card', async function (req, res) {
 // route.xx(xxxx)
 router.get('/query-card', async function (req, res) {
   try {
-    //
+    let msgs;
+    if (req.query.queryType === 'name') {
+      await ScoreCard.find( {name: req.query.queryString}, {_id: 0, name: 1, subject: 1, score: 1}, function(err, found) {
+        if (err) {
+          msgs = "Error occurs when querying ScoreCard!!!";
+        }
+        if (found.length) {
+          msgs = found.map((m) => (`${m.name} got ${m.score} on ${m.subject}`));
+        } else {
+          msgs = [`Name (${req.query.queryString}) not found!`];
+        }
+      })
+    } else {
+      await ScoreCard.find( {subject: req.query.queryString}, {_id: 0, name: 1, subject: 1, score: 1}, function(err, found) {
+        if (err) {
+          msgs = "Error occurs when querying ScoreCard!!!";
+        }
+        if (found.length) {
+          msgs = found.map((m) => (`${m.name} got ${m.score} on ${m.subject}`));
+        } else {
+          msgs = [`Subject (${req.query.queryString}) not found!`];
+        }
+      })
+    }
+    res.send({
+      messages: msgs,
+      message: msgs,
+    });
   } catch (e) {
-    //
+    res.json({ message: 'Something went wrong...' });
   }
 });
 
