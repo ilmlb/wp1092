@@ -69,7 +69,10 @@ const Body = () => {
   const handleQuery = async () => {
     const {
       data: { messages, message },
-    } = await {} // TODO: axios.xxx call the right api
+    } = await axios.get('/api/query-card', {
+      queryType,
+      queryString,
+    }); // TODO: axios.xxx call the right api
 
     if (!messages) addErrorMessage(message);
     else addRegularMessage(...messages);
