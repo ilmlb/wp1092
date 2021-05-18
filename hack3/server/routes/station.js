@@ -95,9 +95,10 @@ const GetStations = async (req, res) => {
   try {
     // fetch data from mongo
     // coding here ...
-    data = await Station.find({}, {_id: 0});
+    data = await Station.find({}, {_id: 0, __v: 0,
+      created_at: 0,
+      updated_at: 0});
     result = tidyUpData(data, result)
-    console.log(result)
 
     if (Object.keys(result).length) {
       // return correct response here ...
