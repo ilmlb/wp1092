@@ -27,10 +27,11 @@ class App extends Component {
     }
   }
 
-  getStations = () => {
+  getStations = async () => {
     // fetch data from database via backend
     // coding here ...
-    console.log(instance.get('/getStations'));
+    let result = (await instance.get('/getStations')).data;
+    return result;
   }
 
   calculateDistance = async () => {
@@ -41,7 +42,7 @@ class App extends Component {
   // fetch data here after 1st render
   // coding here ...
   componentDidMount() {
-    // this.setState({data: this.getStations()})
+    this.setState({data: this.getStations()})
 }
 
   render() {
