@@ -12,8 +12,6 @@ const useChatBox = () => {
     ]);
 
     const createChatBox = (friend, me) => {
-        const [chatBoxes, setChatBoxes] = useState([]);
-
         const newKey = me <= friend ?
               `${me}_${friend}` : `${friend}_${me}`;
         if (chatBoxes.some(({ key }) => key === newKey)) {
