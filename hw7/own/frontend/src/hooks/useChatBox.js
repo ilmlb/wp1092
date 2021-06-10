@@ -1,25 +1,39 @@
-import { useState } from "react"; 
+import { useState } from "react";
+
+const server = new WebSocket('ws://localhost:8080');
+server.onopen = () => console.log('Server connected.');
+server.sendEvent = (e) => server.send(JSON.stringify(e));
+
 const useChatBox = () => {
     const [chatBoxes, setChatBoxes] = useState([
-        {
-            friend: "Mary", key: "MaryChatbox",
-            chatLog: []
-        },
-        {
-            friend: "Peter", key: "PeterChatBox",
-            chatLog: []
-        }
+        // {
+        //     friend: "Mary", key: "MaryChatbox",
+        //     chatLog: []
+        // },
+        // {
+        //     friend: "Peter", key: "PeterChatBox",
+        //     chatLog: []
+        // }
     ]);
 
     const createChatBox = (friend, me) => {
+      console.log(friend, me);
         const newKey = me <= friend ?
               `${me}_${friend}` : `${friend}_${me}`;
         if (chatBoxes.some(({ key }) => key === newKey)) {
           throw new Error(friend +
                           "'s chat box has already opened.");
         }
+        if (!friend || !me) {
+          throw new Error('Fill in the inputs');
+        }
+
+        server.sendEvent({
+          type: 'CHAT',
+          data: { to: friend, name: me },
+        });
         const newChatBoxes = [...chatBoxes];
-        const chatLog = [];
+        const chatLog = []; // restore the message
         newChatBoxes.push({ friend, key: newKey, chatLog });
         setChatBoxes(newChatBoxes);
         return newKey;

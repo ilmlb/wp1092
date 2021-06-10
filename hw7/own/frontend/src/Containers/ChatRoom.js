@@ -20,7 +20,7 @@ const ChatRoom = ({ me, displayStatus }) => {
     const [messageInput, setMessageInput] = useState("");
     const [activeKey, setActiveKey] = useState("");
     const {chatBoxes, createChatBox, removeChatBox} = useChatBox();
-    const {sendMessage} = useChat();
+    const {status, sendMessage} = useChat();
     const [modalVisible, setModalVisible] = useState(false);
 
     const addChatBox = () => { setModalVisible(true); };
@@ -96,8 +96,7 @@ const ChatRoom = ({ me, displayStatus }) => {
                 onChange={(e) =>
                     setMessageInput(e.target.value)}
                 enterButton="Send"
-                placeholder=
-                "Enter message here..."
+                placeholder="Enter message here..."
                 onSearch={(msg) => {
                     if (!msg) {
                         displayStatus({
@@ -113,7 +112,7 @@ const ChatRoom = ({ me, displayStatus }) => {
                         setMessageInput("");
                         return;
                     }
-                    sendMessage({ key: activeKey, body: msg });
+                    sendMessage({ key: activeKey, sender: me, body: msg });
                     setMessageInput("");            
                 }}
             ></Input.Search>

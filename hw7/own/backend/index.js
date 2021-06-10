@@ -93,6 +93,7 @@ wss.on('connection', function connection(client) {
     message = JSON.parse(message);
 
     const { type } = message;
+    console.log(message);
 
     switch (type) {
       // on open chat box
