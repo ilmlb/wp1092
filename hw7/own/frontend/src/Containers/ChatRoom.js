@@ -5,6 +5,10 @@ import ChatModal from "../Components/ChatModal";
 import useChatBox from "../hooks/useChatBox";
 import useChat from "../hooks/useChat";
 
+const server = new WebSocket('ws://localhost:8080');
+server.onopen = () => console.log('Server connected.');
+server.sendEvent = (e) => server.send(JSON.stringify(e));
+
 const { TabPane } = Tabs;
 const ChatRoom = ({ me, displayStatus }) => {
     // const [chatBoxes, setChatBoxes] = useState([
@@ -19,7 +23,7 @@ const ChatRoom = ({ me, displayStatus }) => {
     // ]);
     const [messageInput, setMessageInput] = useState("");
     const [activeKey, setActiveKey] = useState("");
-    const {chatBoxes, createChatBox, removeChatBox} = useChatBox();
+    const {chatBoxes, setChatBoxes, createChatBox, removeChatBox} = useChatBox();
     const {status, sendMessage} = useChat();
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -55,7 +59,32 @@ const ChatRoom = ({ me, displayStatus }) => {
     //     } else newActiveKey = ""; // No chatBox left
     //     setChatBoxes(newChatBoxes);
     //     setActiveKey(newActiveKey);
-    // };    
+    // };  
+    
+    // let chatLog = [];
+    server.onmessage = (m) => {
+        // onEvent(JSON.parse(m.data));
+        const e = JSON.parse(m.data);
+        console.log('e',e);
+        const { type, chatBoxName, data } = e;
+        const cbs = [...chatBoxes];        
+        const box = cbs.findIndex(b => b.key === chatBoxName);
+        let msgs = [];
+        switch (type) {
+            case 'CHAT': {
+                // chatLog = e.data.messages;
+                msgs = [...cbs[box].chatLog, ...data.messages];
+                break;
+            }
+            case 'MESSAGE': {
+                // chatLog.push(e.data.message);
+                msgs = [...cbs[box].chatLog, data.message];
+                break;
+            }
+        }
+        cbs[box].chatLog = msgs;
+        setChatBoxes(cbs);
+    }
 
     return (
         <> 
@@ -75,7 +104,18 @@ const ChatRoom = ({ me, displayStatus }) => {
                         return (
                             <TabPane tab={friend}
                                 key={key} closable={true}>
-                                <p>{friend}'s chatbox.</p>
+                                {/* <p>{friend}'s chatbox.</p> */}
+                                <div className="App-messages">
+                                    {chatLog.map(({name, body}, i) => 
+                                        {
+                                            if (name === friend) {
+                                                return <p className="App-message" key={i}>{name} <span className="message">{body}</span></p>
+                                            } else {
+                                                return <p className="App-message" key={i} style={{textAlign: 'right'}}><span className="message">{body}</span> {name}</p>
+                                            }
+                                        }
+                                    )}
+                                </div>
                             </TabPane>
                         );
                     })}
@@ -85,6 +125,10 @@ const ChatRoom = ({ me, displayStatus }) => {
                     onCreate={({ name }) => {
                         setActiveKey(createChatBox(name, me));
                         setModalVisible(false);
+                        server.sendEvent({
+                            type: 'CHAT',
+                            data: { to: name, name: me },
+                        });
                     }}
                     onCancel={() => {
                         setModalVisible(false);

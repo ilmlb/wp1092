@@ -16,7 +16,7 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
   name: { type: String, required: true },
-  chatBoxes: [{ type: mongoose.Types.ObjectId, ref: 'ChatBox' }],
+  // chatBoxes: [{ type: mongoose.Types.ObjectId, ref: 'ChatBox' }],
 });
 
 const messageSchema = new Schema({
@@ -120,6 +120,7 @@ wss.on('connection', function connection(client) {
 
         client.sendEvent({
           type: 'CHAT',
+          chatBoxName,
           data: {
             messages: chatBox.messages.map(({ sender: { name }, body }) => ({
               name,
@@ -151,6 +152,7 @@ wss.on('connection', function connection(client) {
         chatBoxes[chatBoxName].forEach((client) => {
           client.sendEvent({
             type: 'MESSAGE',
+            chatBoxName,
             data: {
               message: {
                 name,
@@ -163,9 +165,9 @@ wss.on('connection', function connection(client) {
     }
 
     // disconnected
-    client.once('close', () => {
-      chatBoxes[client.box].delete(client);
-    });
+    // client.once('close', () => {
+    //   chatBoxes[client.box].delete(client);
+    // });
   });
 });
 
