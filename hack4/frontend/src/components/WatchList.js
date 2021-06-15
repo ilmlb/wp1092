@@ -1,5 +1,7 @@
 import constants from '../constants';  
 // Look at this file and see how the watchList is strucutred
+import STATS_QUERY from "../graphql/queries"
+import { useQuery } from '@apollo/react-hooks';
 
 
 export default function WatchList() {
