@@ -1,13 +1,17 @@
 import "../App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, Input } from "antd";
 import ChatModal from "../Components/ChatModal";
 import useChatBox from "../hooks/useChatBox";
-import useChat from "../hooks/useChat";
+// import useChat from "../hooks/useChat";
+import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
+import { CHATBOX_QUERY } from '../graphql/queries'
+import { CREATE_CHATBOX_MUTATION, CREATE_MESSAGE_MUTATION } from '../graphql/mutations'
+import { CHATBOX_SUBSCRIPTION } from '../graphql/subscription'
 
-const server = new WebSocket('ws://localhost:8080');../../../../../hw8/own/frontend/src/graphql
-server.onopen = () => console.log('Server connected.');
-server.sendEvent = (e) => server.send(JSON.stringify(e));
+// const server = new WebSocket('ws://localhost:8080');
+// server.onopen = () => console.log('Server connected.');
+// server.sendEvent = (e) => server.send(JSON.stringify(e));
 
 const { TabPane } = Tabs;
 const ChatRoom = ({ me, displayStatus }) => {
@@ -24,7 +28,7 @@ const ChatRoom = ({ me, displayStatus }) => {
     const [messageInput, setMessageInput] = useState("");
     const [activeKey, setActiveKey] = useState("");
     const {chatBoxes, setChatBoxes, createChatBox, removeChatBox} = useChatBox();
-    const {status, sendMessage} = useChat();
+    // const {status, sendMessage} = useChat();
     const [modalVisible, setModalVisible] = useState(false);
 
     const addChatBox = () => { setModalVisible(true); };
@@ -62,29 +66,68 @@ const ChatRoom = ({ me, displayStatus }) => {
     // };  
     
     // let chatLog = [];
-    server.onmessage = (m) => {
-        // onEvent(JSON.parse(m.data));
-        const e = JSON.parse(m.data);
-        console.log('e',e);
-        const { type, chatBoxName, data } = e;
-        const cbs = [...chatBoxes];        
-        const box = cbs.findIndex(b => b.key === chatBoxName);
-        let msgs = [];
-        switch (type) {
-            case 'CHAT': {
-                // chatLog = e.data.messages;
-                msgs = [...cbs[box].chatLog, ...data.messages];
-                break;
+    // server.onmessage = (m) => {
+    //     // onEvent(JSON.parse(m.data));
+    //     const e = JSON.parse(m.data);
+    //     console.log('e',e);
+    //     const { type, chatBoxName, data } = e;
+    //     const cbs = [...chatBoxes];        
+    //     const box = cbs.findIndex(b => b.key === chatBoxName);
+    //     let msgs = [];
+    //     switch (type) {
+    //         case 'CHAT': {
+    //             // chatLog = e.data.messages;
+    //             msgs = [...cbs[box].chatLog, ...data.messages];
+    //             break;
+    //         }
+    //         case 'MESSAGE': {
+    //             // chatLog.push(e.data.message);
+    //             msgs = [...cbs[box].chatLog, data.message];
+    //             break;
+    //         }
+    //     }
+    //     cbs[box].chatLog = msgs;
+    //     setChatBoxes(cbs);
+    // }
+    const { data: newBox, subscribeToMore } = useQuery(CHATBOX_QUERY, {
+        variables: { name: activeKey }
+      });
+      const [addBox] = useMutation(CREATE_CHATBOX_MUTATION);
+      const [addMessage] = useMutation(CREATE_MESSAGE_MUTATION);
+      const { data: newMessage } = useSubscription(CHATBOX_SUBSCRIPTION,
+        { variables: { key: activeKey } }
+      );
+    
+      useEffect(() => {
+        if (newBox !== undefined  && newBox.chatboxes.length !== 0) {
+          const messages = newBox.chatboxes[0].messages.map((m) => {
+            return {
+              name: m.sender.name,
+              body: m.body
             }
-            case 'MESSAGE': {
-                // chatLog.push(e.data.message);
-                msgs = [...cbs[box].chatLog, data.message];
-                break;
-            }
+          })
+          let msgs = [];
+          const cbs = [...chatBoxes];
+          const box = cbs.findIndex(b => b.key === newBox.chatboxes[0].name)
+          msgs = [...cbs[box].chatLog, ...messages]
+          cbs[box].chatLog = msgs
+          setChatBoxes(cbs);
         }
-        cbs[box].chatLog = msgs;
-        setChatBoxes(cbs);
-    }
+      }, [newBox])
+
+      useEffect(() => {
+        if (newMessage !== undefined) {
+          let msgs = [];
+          const cbs = [...chatBoxes];
+          const box = cbs.findIndex(b => b.key === newMessage.chatBox.key)
+          msgs = [...cbs[box].chatLog, {
+            name: newMessage.chatBox.sender,
+            body: newMessage.chatBox.body
+          }];
+          cbs[box].chatLog = msgs
+          setChatBoxes(cbs);
+        }
+      }, [newMessage]);
 
     return (
         <> 
@@ -123,12 +166,18 @@ const ChatRoom = ({ me, displayStatus }) => {
                 <ChatModal
                     visible={modalVisible}
                     onCreate={({ name }) => {
+                        addBox({
+                            variables: {
+                              from: me, 
+                              to: name,
+                            },
+                        })
                         setActiveKey(createChatBox(name, me));
                         setModalVisible(false);
-                        server.sendEvent({
-                            type: 'CHAT',
-                            data: { to: name, name: me },
-                        });
+                        // server.sendEvent({
+                        //     type: 'CHAT',
+                        //     data: { to: name, name: me },
+                        // });
                     }}
                     onCancel={() => {
                         setModalVisible(false);
@@ -156,7 +205,14 @@ const ChatRoom = ({ me, displayStatus }) => {
                         setMessageInput("");
                         return;
                     }
-                    sendMessage({ key: activeKey, sender: me, body: msg });
+                    // sendMessage({ key: activeKey, sender: me, body: msg });
+                    addMessage({
+                        variables: {
+                        key: activeKey,
+                        from: me,
+                        body: msg,
+                        },
+                    })
                     setMessageInput("");            
                 }}
             ></Input.Search>
