@@ -5,7 +5,7 @@ import ChatModal from "../Components/ChatModal";
 import useChatBox from "../hooks/useChatBox";
 import useChat from "../hooks/useChat";
 
-const server = new WebSocket('ws://localhost:8080');../../../../../hw8/own/frontend/src/graphql
+const server = new WebSocket('ws://localhost:8080');
 server.onopen = () => console.log('Server connected.');
 server.sendEvent = (e) => server.send(JSON.stringify(e));
 
