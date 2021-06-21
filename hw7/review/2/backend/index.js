@@ -1,27 +1,19 @@
-
-
-const mongoose = require('mongoose');
-const http = require('http');
-const WebSocket = require('ws');
-const express = require('express');
-const path = require('path');
-const uuid = require('uuid');
-
-// the coding format of the import
-const mongo = require('./mongo');
+import mongoose from 'mongoose';
+import http from 'http';
+import WebSocket from 'ws';
+import express from 'express';
+import path from 'path';
+import { v4 } from 'uuid';
+import dotenv from 'dotenv-defaults';
+import mongo from './mongo';
 
 const app = express();
+dotenv.config();
 
 /* -------------------------------------------------------------------------- */
 /*                               MONGOOSE MODELS                              */
 /* -------------------------------------------------------------------------- */
 const { Schema } = mongoose;
-
-
-// type:{mongoose.Types.ObjectId} => nested structure
-// e.g. chatBoxes: { type: mongoose.Types.ObjectId, ref: 'ChatBox' } => get data from ChatBoxModel
-// But why is it so complicated ?
-// For modulize. 
 
 const userSchema = new Schema({
   name: { type: String, required: true },
@@ -40,10 +32,6 @@ const chatBoxSchema = new Schema({
   messages: [{ type: mongoose.Types.ObjectId, ref: 'Message' }],
 });
 
-
-// mongoose.model(name, schema);
-// => the mongo db would name the collection 'name' + 's' => 'names'
-// and it would be all lowercase
 const UserModel = mongoose.model('User', userSchema);
 const ChatBoxModel = mongoose.model('ChatBox', chatBoxSchema);
 const MessageModel = mongoose.model('Message', messageSchema);
@@ -51,8 +39,6 @@ const MessageModel = mongoose.model('Message', messageSchema);
 /* -------------------------------------------------------------------------- */
 /*                                  UTILITIES                                 */
 /* -------------------------------------------------------------------------- */
-
-// for creating a chatBox's name standizely
 const makeName = (name, to) => {
   return [name, to].sort().join('_');
 };
@@ -62,59 +48,53 @@ const makeName = (name, to) => {
 /* -------------------------------------------------------------------------- */
 const server = http.createServer(app);
 
-// websocket
 const wss = new WebSocket.Server({
   server,
 });
 
-// app.use([routingPath], callback)
-
-// path.join => add the two input path
-// e.g. dirname => C:\Users\user\Documents\GitHub\wp1092\hw7\own\backend
-//      add public => C:\Users\user\Documents\GitHub\wp1092\hw7\own\backend\public
-
-// Express static
-// static: 大家看到的都會一樣的東西
-// direct to frontend (in public)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// check if the input username is existing
 const validateUser = async (name) => {
   const existing = await UserModel.findOne({ name });
   if (existing) return existing;
   return new UserModel({ name }).save();
 };
 
-// populate => connect the self defined object
 const validateChatBox = async (name, participants) => {
   let box = await ChatBoxModel.findOne({ name });
   if (!box) box = await new ChatBoxModel({ name, users: participants }).save();
-
   return box
     .populate('users')
     .populate({ path: 'messages', populate: 'sender' })
     .execPopulate();
 };
 
+// (async () => {
+//   const a = await validateUser('a');
+//   const b = await validateUser('b');
 
+//   console.log(a);
+
+//   const cbName = makeName('a', 'b');
+
+//   const chatBox = await validateChatBox(cbName, [a, b]);
+
+//   console.log(chatBox);
+// })();
 
 const chatBoxes = {}; // keep track of all open AND active chat boxes
 
 wss.on('connection', function connection(client) {
-
-  client.id = uuid.v4();
+  client.id = v4();
   client.box = ''; // keep track of client's CURRENT chat box
 
   client.sendEvent = (e) => client.send(JSON.stringify(e));
-  // console.log(client)
+
   client.on('message', async function incoming(message) {
     message = JSON.parse(message);
-    // message = {
-    //   type: xxx, 
-    //   data: {name: xxx, to: xxx, body: xxx, ...} 
-    // }
+    // console.log(message);
     const { type } = message;
-    console.log(type);
+
     switch (type) {
       // on open chat box
       case 'CHAT': {
@@ -127,11 +107,12 @@ wss.on('connection', function connection(client) {
         const sender = await validateUser(name);
         const receiver = await validateUser(to);
         const chatBox = await validateChatBox(chatBoxName, [sender, receiver]);
-        
+
         // if client was in a chat box, remove that.
-        if (chatBoxes[client.box])
+        if (chatBoxes[client.box]){
           // user was in another chat box
           chatBoxes[client.box].delete(client);
+        }
 
         // use set to avoid duplicates
         client.box = chatBoxName;
@@ -144,18 +125,20 @@ wss.on('connection', function connection(client) {
             messages: chatBox.messages.map(({ sender: { name }, body }) => ({
               name,
               body,
+              chatBoxName,
             })),
           },
         });
 
         break;
       }
-      // add a message to db
+
       case 'MESSAGE': {
         const {
           data: { name, to, body },
         } = message;
-        console.log(name, to, body);
+        // console.log("get message");
+
         const chatBoxName = makeName(name, to);
 
         const sender = await validateUser(name);
@@ -168,14 +151,15 @@ wss.on('connection', function connection(client) {
         chatBox.messages.push(newMessage);
         await chatBox.save();
 
-        // two side both open the chatbox
         chatBoxes[chatBoxName].forEach((client) => {
+          // console.log("send message");
           client.sendEvent({
             type: 'MESSAGE',
             data: {
               message: {
                 name,
                 body,
+                chatBoxName
               },
             },
           });
@@ -192,12 +176,6 @@ wss.on('connection', function connection(client) {
 
 mongo.connect();
 
-server.listen(8080, () => {
-  console.log('Server listening at http://localhost:8080');
+server.listen(4000, () => {
+  console.log('Server listening at http://localhost:4000');
 });
-
-
-// Coding order
-// mongoose => connect
-// server set up 
-// server.on

@@ -29,19 +29,3 @@
   padding: 20px;
   overflow: auto;
 }
-
-.App-message-user{
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-  text-align: right;
-  color:black;
-}
-
-.App-message-friend{
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-  text-align: left;
-  color:black;
-}

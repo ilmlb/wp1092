@@ -20,20 +20,15 @@
       const messagesDOM = document.getElementById('messages');
       const inputDOM = document.getElementById('input');
 
-      // chat messages
       let messages = [];
 
-      const server = new WebSocket('ws://localhost:8080');
+      const server = new WebSocket('ws://localhost:4000');
       server.onopen = () => console.log('Server connected.');
-
-      // listen from the input data
       server.onmessage = (m) => {
         onEvent(JSON.parse(m.data));
       };
-
       server.sendEvent = (e) => server.send(JSON.stringify(e));
 
-      // chat button's onClick
       const startChat = () => {
         if (!nameDOM.value || !toDOM.value) {
           throw new Error('Fill in the inputs');
@@ -45,7 +40,6 @@
         });
       };
 
-      // send button's onClick
       const sendMessage = () => {
         if (!inputDOM.value || !nameDOM.value || !toDOM.value) {
           throw new Error('Empty input!');
@@ -57,7 +51,6 @@
         });
       };
 
-      // show messages
       const renderMessages = () => {
         resetMessages();
 
@@ -68,23 +61,24 @@
         });
       };
 
-      // remove all messages
       const resetMessages = () => {
+        // remove all children
         messagesDOM.innerHTML = '';
       };
 
-      // send an object into this function
-      // e.g. {type:'CHAT'(or 'MESSAGE')}
       const onEvent = (e) => {
         const { type } = e;
+        console.log(e);
 
         switch (type) {
           case 'CHAT': {
             messages = e.data.messages;
+            console.log(e.data.messages);
             break;
           }
           case 'MESSAGE': {
             messages.push(e.data.message);
+            console.log(e.data.message);
             break;
           }
         }

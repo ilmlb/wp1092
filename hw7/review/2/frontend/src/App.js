@@ -1,55 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
-import react from 'react';
-import { useState, useEffect } from 'react';
-import ChatRoomPage from './Containers/ChatRoomPage';
-import SingInPage from './Containers/SignInPage';
-import {message} from 'antd';
+import "./App.css";
+import { useState, useEffect } from "react";
+import SignIn from "./Containers/SignIn"
+import ChatRoom from "./Containers/ChatRoom"
+import { message } from "antd";
 
-const LOCALSTORAGE_KEY = 'saveUserName';
-
-const displayStatus = (payload) => {
-  if (payload.msg) {
-    const { type, msg } = payload;
-    const content = {
-      content: msg, duration: 1.5,
-    }
-    switch (type) {
-      case 'success':
-        message.success(content);
-        break;
-      case 'error':
-      default:
-        message.error(content);
-        break;
-    }
-  }
-}
+const LOCALSTORAGE_KEY = "save-me";
 
 const App = () => {
-
-  const saveUserName = localStorage.getItem(LOCALSTORAGE_KEY);
-  
-
+  const savedMe = localStorage.getItem(LOCALSTORAGE_KEY);
   const [signedIn, setSignedIn] = useState(false);
-  const [userName, setUserName] = useState(saveUserName||'');
+  const [me, setMe] = useState(savedMe || "");
 
-  useEffect(()=>{
-    if(signedIn) localStorage.setItem(LOCALSTORAGE_KEY,userName);
-  },[signedIn]);
-  
-  
+  const displayStatus = (payload) => {
+    if(payload.msg) {
+      const {type, msg} = payload
+      const content = {
+        content: msg, duration: 0.5
+      }
+      switch (type) {
+        case "success":
+          message.success(content)
+          break
+        case "error":
+        default:
+          message.error(content)
+          break
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (signedIn) {
+      localStorage.setItem(LOCALSTORAGE_KEY, me);
+    }
+  }, [signedIn]);
+
+  // useEffect(() => {
+  //   displayStatus(status)
+  // }, [status])
+
   return (
     <div className="App">
-      {signedIn ?
-        <ChatRoomPage userName={userName} displayStatus={displayStatus} /> :
-        <SingInPage
-          userName={userName}
-          setSignedIn={setSignedIn}
-          setUserName={setUserName}
-          displayStatus={displayStatus} />}
+      {signedIn ? (<ChatRoom me={me} displayStatus={displayStatus}/>) : (<SignIn me={me} setMe={setMe} setSignedIn={setSignedIn} displayStatus={displayStatus}/>)}
     </div>
   );
-}
-export {displayStatus};
+};
 export default App;

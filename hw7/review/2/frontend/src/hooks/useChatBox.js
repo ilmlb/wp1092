@@ -1,42 +1,40 @@
-import {useState} from 'react';
+import { useState } from "react";
 
-const useChatBox = (userName,activeKey) =>{
-    const [chatBoxes, setChatBoxes] = useState([
-        {friend: 'Mary', key:'MaryChatBox',chatLog:[{sender:'Mary',messageBody:'Hi'},{sender:'max',messageBody:'Hello'}]},
-        {friend: 'Peter', key:'PeterChatBox',chatLog:[]},
-      ]); 
+const useChatBox = () => {
+  const [chatBoxes, setChatBoxes] = useState([]);
 
-    const createChatBox = (friend) => {
-        const newKey = userName <= friend ? `${userName}_${friend}`:`${friend}_${userName}`;
-        if (chatBoxes.some(({key})=>key === newKey)) throw new Error(`${friend}'s chat box has already opened.`);
-        const newChatBoxes = [...chatBoxes];
-        const chatLog = [];
-        newChatBoxes.push({friend,key:newKey,chatLog});
-        setChatBoxes(newChatBoxes);
-        return newKey;
+  const createChatBox = (friend, me) => {
+    const newKey = me <= friend ?
+          `${me}_${friend}` : `${friend}_${me}`;
+    if (chatBoxes.some(({ key }) => key === newKey)) {
+      throw new Error(friend + "'s chat box has already opened.");
     }
-    
-    const removeChatBox = (targetKey) => {
+    const newChatBoxes = [...chatBoxes];
+    const chatLog = [];
+    newChatBoxes.push({ friend, key: newKey, chatLog });
+    setChatBoxes(newChatBoxes);
+    return newKey;
+  };
+
+  const removeChatBox = (targetKey, activeKey) => {
     let newActiveKey = activeKey;
     let lastIndex;
-    chatBoxes.forEach(({key},index)=>{
-      if (key === targetKey) lastIndex = index-1;
-      const newChatBoxes = chatBoxes.filter((chatBox)=>chatBox.key !== targetKey);
-      if (newChatBoxes.length){
-        if (newActiveKey === targetKey){
-          if (lastIndex >= 0 ){
-            newActiveKey = newChatBoxes[lastIndex].key;
-          } else {
-            newActiveKey = newChatBoxes[0].key;
-          }
-        } 
-      } else newActiveKey = '';
-      setChatBoxes(newChatBoxes);
-      return newActiveKey;
-    });
-  }
+    chatBoxes.forEach(({ key }, i) => {
+      if (key === targetKey) { lastIndex = i - 1; }});
+    const newChatBoxes = chatBoxes.filter(
+      (chatBox) => chatBox.key !== targetKey);
+    if (newChatBoxes.length) {
+      if (newActiveKey === targetKey) {
+        if (lastIndex >= 0) {
+          newActiveKey = newChatBoxes[lastIndex].key;
+        } else { newActiveKey = newChatBoxes[0].key; }
+      }
+    } else newActiveKey = ""; // No chatBox left
+    setChatBoxes(newChatBoxes);
+    return newActiveKey;
+  };
 
-  return {chatBoxes, createChatBox, removeChatBox}
+  return { chatBoxes, createChatBox, removeChatBox };
 };
 
 export default useChatBox;

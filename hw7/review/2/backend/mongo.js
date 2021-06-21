@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv-defaults')
+import mongoose from 'mongoose';
+
 // i use mongodb://localhost:27017/cardmongo for MONGO_URL
+
 
 function connectMongo() {
 
-  dotenv.config();
-  if (!process.env.MONGO_URL){
-    console.error("Missing MONGO_URL!");
-    process.exit(1);
+  if (!process.env.MONGO_URL) {
+    console.error('Missing MONGO_URL!!!')
+    process.exit(1)
   }
 
   mongoose.connect(process.env.MONGO_URL, {
@@ -23,11 +23,8 @@ function connectMongo() {
   });
 }
 
-// Why not directly export connectMongo ?
-// For extension. That can use mongo.xxx in the future
 const mongo = {
   connect: connectMongo,
 };
 
-// the coding format of module's export
 module.exports = mongo;

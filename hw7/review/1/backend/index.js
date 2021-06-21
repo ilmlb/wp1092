@@ -4,15 +4,8 @@ const WebSocket = require('ws');
 const express = require('express');
 const path = require('path');
 const uuid = require('uuid');
-// import mongoose from "mongoose";
-// import http from "http";
-// import WebSocket from "ws";
-// import express from "express";
-// import path from "path";
-// import {v4 as uuid} from "uuid";
-// import mongo from "./mongo.js";
 
-const mongo = require('./mongo');
+const mongo = require('./mongo'); //import from ./mongo.js
 
 const app = express();
 
@@ -58,7 +51,7 @@ const wss = new WebSocket.Server({
   server,
 });
 
-app.use(express.static('./public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const validateUser = async (name) => {
   const existing = await UserModel.findOne({ name });
@@ -98,7 +91,6 @@ wss.on('connection', function connection(client) {
 
   client.on('message', async function incoming(message) {
     message = JSON.parse(message);
-    console.log(message);
 
     const { type } = message;
 
